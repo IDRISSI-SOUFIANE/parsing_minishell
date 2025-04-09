@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 22:43:23 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/08 21:07:25 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:01:46 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,55 +112,43 @@ char	**duplicate_value_array(char **s)
 	return (str);
 }
 
-void	ft_check(t_data *current, t_token *temp)
+void	ft_check(t_data *current, t_token *temp, int i)
 {
-	// int i;
+	int	j;
 
-	// i = 0;
-	// while (temp->value[i])
-	// 	i++;
-	// if (i > 1)
-	// 	current->args = duplicate_value_array(temp->value); //malloc((i + 1) * sizeof(char *));
-	// else
-	// 	add_argument(current, temp->value[0]);
-
-
-	int i = 0;
-    	while (temp->value[i])
-        	i++;
-    	if (i > 1)
- 	  	{
-   	    	// Allocate new args array
-   	    	current->args = malloc((i + 1) * sizeof(char *));
-   	    	if (!current->args)
-   	    		return ; // Handle error
-   	     	// Duplicate each string
-   	     	for (int j = 0; j < i; j++)
-   	     	{
-            	current->args[j] = ft_strdup(temp->value[j]);
-   		        	if (!current->args[j])
-           		{
-   	            	// Free allocated memory on failure
-   	            	while (j-- > 0)
-   	                	free(current->args[j]);
-   	            	free(current->args);
-   		            	return ;
-   	         	}
-   	     	}
-    	    	current->args[i] = NULL;
-    	}
-   	 	else
-    	    add_argument(current, temp->value[0]);
-
-	
+    while (temp->value[++i]);
+	if (i > 1)
+	{
+		current->args = malloc((i + 1) * sizeof(char *));
+		if (!current->args)
+			return ;
+		j = 0;
+		while (j < i)
+		{
+			current->args[j] = ft_strdup(temp->value[j]);
+			if (!current->args[j])
+			{
+				while (j-- > 0)
+					free(current->args[j]);
+				free(current->args);
+					return ;
+			}
+			j++;
+		}
+		current->args[i] = NULL;
+	}
+	else
+		add_argument(current, temp->value[0]);	
 }
 
 t_data *parsing(t_token **tokens)
 {
+	int		i;
 	t_token *temp;
 	t_data *lst;
 	t_data *current;
 
+	i = -1;
 	temp = *tokens;
 	lst = ft_lstnew_p();
 	current = lst;
@@ -173,9 +161,8 @@ t_data *parsing(t_token **tokens)
 		}
 		else if (temp->type == CMD)
 			current->cmd = ft_strdup(temp->value[0]);
-
 		else if (temp->type == WORD)
-			ft_check(current, temp);
+			ft_check(current, temp, i);
 		else if (temp->type >= FREAD_IN && temp->type <= F_APPEND)
 			add_redirection(current, temp);
 		temp = temp->next;

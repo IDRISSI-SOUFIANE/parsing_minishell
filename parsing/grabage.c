@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 23:58:28 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/08 20:49:59 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/09 09:16:03 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void free_tokens(t_token *tokens)
 			free(tmp->value);
 		}
 
-		free(tmp); // Free the struct
+		free(tmp);
 	}
 }
 t_token *deldum(t_token **head)
@@ -55,6 +55,7 @@ t_token *deldum(t_token **head)
 		while (temp->value[i])
 		{
 			free(temp->value[i]);
+			// temp->value[i] = NULL;
 			i++;
 		}
 		free(temp->value);
@@ -63,39 +64,69 @@ t_token *deldum(t_token **head)
 	return (*head);
 }
 
-
 void free_data(t_data *data)
 {
-    t_data *current = data;
-    while (current)
-    {
-        t_data *next = current->next;
+	t_var_data	d_var;
 
-        // Free command
-        free(current->cmd);
-
-        // Free arguments
-        if (current->args)
-        {
-            for (int i = 0; current->args[i]; i++)
-                free(current->args[i]);
-            free(current->args);
+	ft_memset(&d_var, 0, sizeof(d_var));
+	d_var.current = data;
+	while (d_var.current)
+	{
+		d_var.next = d_var.current->next;
+		free(d_var.current->cmd);
+		if (d_var.current->args)
+		{
+			d_var.i = 0;
+            while (d_var.current->args[d_var.i])
+                free(d_var.current->args[d_var.i++]);
+            free(d_var.current->args);
         }
-
-        // Free redirections
-        t_redir *redir = current->file;
-        while (redir)
+		d_var.redir = d_var.current->file;
+        while (d_var.redir)
         {
-            t_redir *next_redir = redir->next;
-            free(redir->name);
-            free(redir);
-            redir = next_redir;
+			d_var.next_redir = d_var.redir->next;
+            (free(d_var.redir->name), free(d_var.redir));
+            d_var.redir = d_var.next_redir;
         }
-
-        free(current);
-        current = next;
+        free(d_var.current);
+        d_var.current = d_var.next;
     }
 }
+
+
+// void free_data(t_data *data)
+// {
+//     t_data *current = data;
+//     while (current)
+//     {
+//         t_data *next = current->next;
+
+//         // Free command
+//         free(current->cmd);
+
+//         // Free arguments
+//         if (current->args)
+//         {
+//             for (int i = 0; current->args[i]; i++)
+//                 free(current->args[i]);
+//             free(current->args);
+//         }
+
+//         // Free redirections
+//         t_redir *redir = current->file;
+//         while (redir)
+//         {
+//             t_redir *next_redir = redir->next;
+//             free(redir->name);
+//             free(redir);
+//             redir = next_redir;
+//         }
+
+//         free(current);
+//         current = next;
+//     }
+// }
+
 
 
 // void free_tokens(t_token *tokens)

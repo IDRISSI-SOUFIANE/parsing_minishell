@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:50:45 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/07 09:58:57 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:17:34 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ ls | > a
 mzal kynin MCHAKILL FI ERROR.C
 */
 
-/*
+/*									*/
 int	is_redirect(t_keyword type)
 {
 	return (type == READ_IN || type == WRITE_OUT
@@ -104,4 +104,4 @@ int	error(t_token *tokens)
 	return (ft_putstr_fd(ERROR, STDERR_FILENO), 1);
 	return (0);
 }
-*/
+/*					*/

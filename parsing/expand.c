@@ -559,7 +559,7 @@ static char **expand_string(char *str, int *flag)
 	ft_memset(&ex, 0, sizeof(ex));
 	ex.res = ft_strdup("");
 	if (!ex.res)
-		return NULL;
+		return (NULL);
 	while (str[ex.i])
 	{
 		if (str[ex.i] == '\'')
