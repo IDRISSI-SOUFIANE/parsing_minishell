@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 23:58:28 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/09 09:16:03 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:10:29 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ t_token *deldum(t_token **head)
 		while (temp->value[i])
 		{
 			free(temp->value[i]);
-			// temp->value[i] = NULL;
 			i++;
 		}
 		free(temp->value);

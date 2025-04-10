@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/09 12:18:18 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:23:44 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,11 @@ int main(int ac, char **av, char **env)
 		}
 		tokens = lexing(line);
 		data = parsing(&tokens);
-		
+
 		//
 			// excution();
 		//
-		/*		this print cause leaks			
+		/*		this print cause leaks			*/
 			// PRINT
 			t_data *tmp = data;
 			while (tmp)
@@ -105,7 +105,7 @@ int main(int ac, char **av, char **env)
 				if (tmp->args)
 				{
 					for (int i = 0; tmp->args[i]; i++)
-						printf(" %s", tmp->args[i]);
+						printf(" |%s|", tmp->args[i]);
 				}
 				printf("\n");
 				if (tmp->file)
@@ -120,7 +120,7 @@ int main(int ac, char **av, char **env)
 				printf("\n");
 				tmp = tmp->next;
 			}
-							*/
+		/*					*/
 		//
 		if (line[0] != '\0')
 			add_history(line);
@@ -130,3 +130,18 @@ int main(int ac, char **av, char **env)
 	}
 	return (0);
 }
+
+
+/*************************************/
+
+// ls -la '' '' file 
+
+
+// ls   -la   file   '' '' NULL
+
+// char *ar = malloc(1);
+// ar[0] = 0;
+
+//  handle this cas '' '' '' ''
+// add `command` as argument also, cause execve need it
+// syntax error

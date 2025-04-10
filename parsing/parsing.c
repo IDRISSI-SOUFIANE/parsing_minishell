@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 22:43:23 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/09 12:01:46 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:24:53 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void add_redirection(t_data *current, t_token *token)
 	}
 }
 
-/**/
 void add_argument(t_data *current, char *arg)
 {
 	int count;
@@ -59,6 +58,7 @@ void add_argument(t_data *current, char *arg)
 	if (current->args)
 		while (current->args[count])
 			count++;
+																	printf("\ncount: %d\n", count);
 	new_args = malloc((count + 2) * sizeof(char *));
 	if (!new_args)
 		return ;
@@ -67,78 +67,54 @@ void add_argument(t_data *current, char *arg)
 		new_args[i] = current->args[i];
 		i++;
 	}
+	i = 0;
 	new_args[count] = ft_strdup(arg);
 	new_args[count + 1] = NULL;
-	free(current->args); // ?? ?? ?? ?? ?? ?? ?? ?? 
+	free(current->args);
 	current->args = new_args;
-}
-
-int	ft_count(char **s)
-{
-	int	i;
-
-	i = 0;
-	while (NULL != s[i])
-		i++;
-	return (i);
-}
-
-char	**duplicate_value_array(char **s)
-{
-	int		count;
-	int		i;
-	char	**str;
-
-	if (!s)
-		return (NULL);
-	count = ft_count(s);
-	str = malloc(count + 1);
-	if(NULL == str)
-		return (NULL);
-	i = 0;
-	while (i < count)
-	{
-		str[i] = ft_strdup(s[i]);
-		if (!str[i])
-		{
-			while (i-- > 0)
-				free(str[i]);
-			free(str);
-			return (NULL);
-		}
-		i++;
-	}
-	str[count] = NULL;
-	return (str);
+																while (i <= count)
+																{
+																	printf("=>%s\n", current->args[i]);
+																	i++;
+																}
 }
 
 void	ft_check(t_data *current, t_token *temp, int i)
 {
 	int	j;
 
-    while (temp->value[++i]);
+	printf("start => i : %d", i);
+
+	while (temp->value[++i])
+		;
+																printf("\ni: %d", i);
 	if (i > 1)
 	{
-		current->args = malloc((i + 1) * sizeof(char *));
-		if (!current->args)
-			return ;
+																	printf("\nenter here i > 1\n");
+		// current->args = malloc((i + 1) * sizeof(char *));
+		// if (!current->args)
+			// return ;
 		j = 0;
 		while (j < i)
 		{
-			current->args[j] = ft_strdup(temp->value[j]);
-			if (!current->args[j])
-			{
-				while (j-- > 0)
-					free(current->args[j]);
-				free(current->args);
-					return ;
-			}
+																	printf("\nj: %d", j);
+			// current->args[j] = ft_strdup(temp->value[j]);
+			add_argument(current, temp->value[j]);
+																		printf("!!%s\n", temp->value[j]);
+			// if (!current->args[j])
+			// {
+			// 	while (j-- > 0)
+			// 		free(current->args[j]);
+			// 	free(current->args);
+			// 		return ;
+			// }
 			j++;
 		}
-		current->args[i] = NULL;
+		// current->args[i] = NULL; // problem here
 	}
 	else
-		add_argument(current, temp->value[0]);	
+		add_argument(current, temp->value[0]);
+
 }
 
 t_data *parsing(t_token **tokens)
@@ -160,7 +136,10 @@ t_data *parsing(t_token **tokens)
 			current = current->next;
 		}
 		else if (temp->type == CMD)
+		{
 			current->cmd = ft_strdup(temp->value[0]);
+			add_argument(current, temp->value[0]);
+		}
 		else if (temp->type == WORD)
 			ft_check(current, temp, i);
 		else if (temp->type >= FREAD_IN && temp->type <= F_APPEND)
@@ -351,6 +330,14 @@ t_data *parsing(t_token **tokens)
 	}
 	return (lst);
 }
+
+
+*/
+
+
+
+/*
+
 
 
 */
