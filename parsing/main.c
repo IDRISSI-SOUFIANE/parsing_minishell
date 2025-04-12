@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/10 19:23:44 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/12 13:29:37 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int main(int ac, char **av, char **env)
 				printf("\n");
 				tmp = tmp->next;
 			}
-		/*					*/
+		/*				*/
 		//
 		if (line[0] != '\0')
 			add_history(line);
@@ -133,15 +133,14 @@ int main(int ac, char **av, char **env)
 
 
 /*************************************/
-
-// ls -la '' '' file 
-
-
-// ls   -la   file   '' '' NULL
-
-// char *ar = malloc(1);
-// ar[0] = 0;
-
-//  handle this cas '' '' '' ''
+//  handle this cas '' '' '' ''  
 // add `command` as argument also, cause execve need it
-// syntax error
+
+
+// syntax error ;;
+/*
+there still a problem when i write '           ' => the problem is not print l espace
+exept when somethig in single_quote like this => '        .'
+so should fix this issue when i have a space in single quote should keep the space '      '
+
+*/

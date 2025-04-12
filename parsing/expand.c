@@ -580,6 +580,127 @@ static char **expand_string(char *str, int *flag)
 	return (split(&ex, flag));
 }
 
+
+// int	ft_strcmp_ex(char *s1, char *s2)
+// {
+// 	int	i;
+
+// 	// if (!s1 || !s2)
+// 		// return (NULL);
+// 	// if not work create a new function do the same in other name and allocat '\0'
+
+// 	i = 0;
+// 	while (s1[i] && s2[i])
+// 	{
+// 		if (s1[i] != s2[i])
+// 			break ;
+// 		i++;
+// 	}
+// 	if (s1[i] != s2[i])
+// 		return (s1[i] - s2[i]);
+// 	return (s1[i] - s2[i]);
+// }
+
+// int	ft_null(char *s)
+// {
+// 	char	*s_q;
+// 	char	*d_q;
+// 	char	*str;
+// 	str = NULL;
+	
+// 	d_q = ft_strdup("\"\"");
+// 	s_q = ft_strdup("\'\'");
+
+
+// 	str = ft_strdup(s);
+
+// 	printf("\n str: %s\n", str);
+
+// 	// while (1);
+
+// 	if (!ft_strcmp_ex(str, s_q) || !ft_strcmp_ex(s, d_q))
+// 	{
+// 		free(str);
+// 		free(d_q);
+// 		free(s_q);
+// 		return (1);
+// 	}
+// 			free(d_q);
+// 		free(s_q);
+// 	free(str);
+// 	return (0);
+// }
+
+
+
+
+int	ft_null(char *s)
+{
+	char	*s_q;
+	char	*d_q;
+
+	d_q = "\"\"";
+	s_q = "\'\'";
+	if (!ft_strcmp(s, s_q) || !ft_strcmp(s, d_q))
+		return (1);
+	return (0);
+}
+
+
+void ft_expand(t_token *tokens)
+{
+	char **expanded;
+	int flag;
+	int	i;
+
+	while (tokens)
+	{
+		if (tokens->type != F_HERDOC && tokens->value && tokens->value[0] && !ft_null(tokens->value[0]))
+		{
+			flag = 0;
+			expanded = expand_string(tokens->value[0], &flag);
+			if (tokens->value)
+			{
+				while (tokens->value[i])
+				{
+					free(tokens->value[i]);
+					i++;
+				}
+				i = 0;
+				free(tokens->value);
+			}
+			tokens->value = expanded;
+		}
+		tokens = tokens->next;
+	}
+}
+
+/*
+
+there still a problem when i write '           ' => the problem is not print l espace
+exept when somethig in single_quote like this => '        .'
+so should fix this issue when i have a space in single quote should keep the space'      '
+
+*/
+
+/*
+
+int	ft_null(char *s)
+{
+	char	*s_q;
+	char	*d_q;
+
+	d_q = "\"\"";
+	s_q = "\'\'";
+	if (!ft_strcmp(s, s_q) || !ft_strcmp(s, d_q))
+		return (1);
+	return (0);
+}
+*/
+
+/*
+
+
 void ft_expand(t_token *tokens)
 {
 	char **expanded;
@@ -587,7 +708,7 @@ void ft_expand(t_token *tokens)
 
 	while (tokens)
 	{
-		if (tokens->type != F_HERDOC && tokens->value && tokens->value[0])
+		if (tokens->type != F_HERDOC && tokens->value && tokens->value[0] && !ft_null(tokens->value[0]))
 		{
 			flag = 0;
 			expanded = expand_string(tokens->value[0], &flag);
@@ -602,3 +723,4 @@ void ft_expand(t_token *tokens)
 		tokens = tokens->next;
 	}
 }
+*/

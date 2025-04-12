@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 22:43:23 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/10 19:24:53 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/12 09:19:11 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void add_argument(t_data *current, char *arg)
 	if (current->args)
 		while (current->args[count])
 			count++;
-																	printf("\ncount: %d\n", count);
 	new_args = malloc((count + 2) * sizeof(char *));
 	if (!new_args)
 		return ;
@@ -72,45 +71,24 @@ void add_argument(t_data *current, char *arg)
 	new_args[count + 1] = NULL;
 	free(current->args);
 	current->args = new_args;
-																while (i <= count)
-																{
-																	printf("=>%s\n", current->args[i]);
-																	i++;
-																}
 }
 
-void	ft_check(t_data *current, t_token *temp, int i)
+void	ft_check(t_data *current, t_token *temp)
 {
 	int	j;
+	int i;
 
-	printf("start => i : %d", i);
-
-	while (temp->value[++i])
-		;
-																printf("\ni: %d", i);
+	i = 0;
+	while (temp->value[i])
+		i++ ;
 	if (i > 1)
 	{
-																	printf("\nenter here i > 1\n");
-		// current->args = malloc((i + 1) * sizeof(char *));
-		// if (!current->args)
-			// return ;
 		j = 0;
 		while (j < i)
 		{
-																	printf("\nj: %d", j);
-			// current->args[j] = ft_strdup(temp->value[j]);
 			add_argument(current, temp->value[j]);
-																		printf("!!%s\n", temp->value[j]);
-			// if (!current->args[j])
-			// {
-			// 	while (j-- > 0)
-			// 		free(current->args[j]);
-			// 	free(current->args);
-			// 		return ;
-			// }
 			j++;
 		}
-		// current->args[i] = NULL; // problem here
 	}
 	else
 		add_argument(current, temp->value[0]);
@@ -119,12 +97,10 @@ void	ft_check(t_data *current, t_token *temp, int i)
 
 t_data *parsing(t_token **tokens)
 {
-	int		i;
 	t_token *temp;
 	t_data *lst;
 	t_data *current;
 
-	i = -1;
 	temp = *tokens;
 	lst = ft_lstnew_p();
 	current = lst;
@@ -141,7 +117,7 @@ t_data *parsing(t_token **tokens)
 			add_argument(current, temp->value[0]);
 		}
 		else if (temp->type == WORD)
-			ft_check(current, temp, i);
+			ft_check(current, temp);
 		else if (temp->type >= FREAD_IN && temp->type <= F_APPEND)
 			add_redirection(current, temp);
 		temp = temp->next;
