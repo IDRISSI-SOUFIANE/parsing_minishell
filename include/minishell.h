@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/10 09:55:07 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/12 16:19:17 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ t_data *parsing(t_token **tokens);
 /*main.c*/
 int check_quotes(char *line, int i, int count_quote);
 t_token *lexing(char *line);
-// int lexing(char *line);
+// void lexing(char *line);
 
 /*---------------tokenization---------------*/
 int sp(char c);

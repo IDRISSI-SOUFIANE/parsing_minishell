@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/12 13:29:37 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/12 17:03:59 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ t_token *lexing(char *line)
 	return (tokens);
 }
 
+
+
 void	f()
 {
 	system("leaks minishell");
@@ -67,7 +69,7 @@ void	f()
 
 int main(int ac, char **av, char **env)
 {
-	atexit(f);
+	// atexit(f);
 	(void)ac;
 	(void)av;
 	(void)env; // I am voiding env cause in expand i am using function getenv()
