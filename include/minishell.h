@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/12 16:19:17 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/17 16:20:26 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <fcntl.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <string.h> 
 
 #define ERROR "minishell: syntax error near unexpected token\n"
 #define name_length 9
@@ -46,9 +47,20 @@ typedef struct s_quote_data
 {
 	char *line;
 	int *i;
-	char *buffer;
-	int *buffer_index;
+	char **buffer;
+	// int *buffer_index;
 } t_quote_data;
+
+
+typedef	struct s_initalize
+{
+	int		j;
+	char	quote;
+    char	*new_buffer;
+	char	*res;
+}	t_initalize;
+
+
 
 typedef struct s_token
 {
@@ -105,9 +117,10 @@ t_token *lexing(char *line);
 
 /*---------------tokenization---------------*/
 int sp(char c);
-void handle_quotes(t_quote_data *data);
-void handle_special_chars(char *line, int *i, t_token **head);
-void handle_words(char *line, int *i, char *buffer, int *buffer_index);
+// void handle_quotes(t_quote_data *data);
+// void handle_special_chars(char *line, int *i, t_token **head);
+// void handle_words(char *line, int *i, char *buffer, int *buffer_index);
+// void handle_words(char *line, int *i, char **buffer);
 t_token *tokenization(char *line, int i);
 
 /*---------------garbage---------------*/

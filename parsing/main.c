@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/12 17:03:59 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:14:20 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,47 @@ t_token *lexing(char *line)
 	return (tokens);
 }
 
+// void	lexing(char *line)
+// {
+// 	int		i;
+// 	int		count_quote;
+// 	t_token	*tokens;
+
+// 	i = 0;
+// 	count_quote = 0;
+// 	if (check_quotes(line, i, count_quote))
+// 		return (ft_putstr_fd("missing quotation\n", 2));
+
+// 	tokens = tokenization(line, i);
+// 	if (tokens == NULL)
+// 		return ;
+// 	// error(tokens);
+// 	// ft_rename(tokens);
+// 	// ft_expand(tokens);
+// 	// ft_herdoc(tokens);
+
+// 	t_token *temp;
+
+// 	temp = tokens;
+
+// 	// printf("@==> %s\n", temp->value[0]);
+
+// 	while (temp)
+// 	{
+// 		int	i = 0;
+// 		if (temp->value)
+// 		{
+// 			while (temp->value[i])
+// 			{
+// 					printf("\n | %s |\n", temp->value[i]);
+// 					i++;
+// 			}
+// 		}
+// 		temp = temp->next;
+// 	}
+	
+// }
+
 
 
 void	f()
@@ -69,7 +110,7 @@ void	f()
 
 int main(int ac, char **av, char **env)
 {
-	// atexit(f);
+	atexit(f);
 	(void)ac;
 	(void)av;
 	(void)env; // I am voiding env cause in expand i am using function getenv()
@@ -90,10 +131,12 @@ int main(int ac, char **av, char **env)
 		tokens = lexing(line);
 		data = parsing(&tokens);
 
+		// lexing(line);
+
 		//
 			// excution();
 		//
-		/*		this print cause leaks			*/
+		/*		printe cause leaks
 			// PRINT
 			t_data *tmp = data;
 			while (tmp)
@@ -139,10 +182,26 @@ int main(int ac, char **av, char **env)
 // add `command` as argument also, cause execve need it
 
 
-// syntax error ;;
+/* problem
+	syntax error ;;
+*/
+
 /*
 there still a problem when i write '           ' => the problem is not print l espace
 exept when somethig in single_quote like this => '        .'
 so should fix this issue when i have a space in single quote should keep the space '      '
+*/
 
+/* 
+	problem in herdoc "ok" => khaso irooj bi ok bla ""
+	check this in your bash and compare it with real bash
+*/
+
+/* problem
+<< ok |||| << d
+check this in your bash and compare it with real bash
+*/
+
+/* problem
+	close(fd) => if I close it fd in parsing the executer can't open it again will lose so be carefule and find a solution 
 */

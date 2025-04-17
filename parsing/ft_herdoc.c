@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 05:40:07 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/06 19:12:13 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/17 15:43:40 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static char *open_herdoc(char *delimter)
 		write(write_fd, "\n", 1);
 		free(line);
 	}
-	return (close(write_fd), random_fd);
+	return (close(write_fd), random_fd);// jloul surprise
 }
 
 void ft_herdoc(t_token *tokens)
