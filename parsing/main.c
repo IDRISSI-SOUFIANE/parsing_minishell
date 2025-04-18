@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/18 20:51:51 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/18 23:00:55 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_token *lexing(char *line)
 	error(tokens);
 	ft_rename(tokens);
 	ft_expand(tokens);
-	ft_herdoc(tokens);
+	ft_herdoc(&tokens);
 	return (tokens);
 }
 
@@ -118,7 +118,7 @@ int main(int ac, char **av, char **env)
 						if (tmp->file->type != F_HERDOC)
 							printf("[fname: %s | ftype: %d]\n",  (tmp->file->name), tmp->file->type);
 						else
-							printf("[fname: %d | ftype: %d]\n",  *(tmp->file->fd), tmp->file->type);
+							printf("[fname: %d | ftype: %d]\n",  (tmp->file->fd), tmp->file->type);
 						
 						tmp->file = tmp->file->next;
 					}

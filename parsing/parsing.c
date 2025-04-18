@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 22:43:23 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/18 21:13:51 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/18 23:12:01 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,31 +24,23 @@ t_data *ft_lstnew_p(void)
 	return (new_node);
 }
 
-void add_redirection(t_data *current, t_token *token)
+void add_redirection(t_data *current, t_token **tokens)
 {
 	t_redir *new_redir;
 	t_redir *last;
+	t_token *token = *tokens;
+
+	// printf("token: %d \n", token->fd);
+
+	// while (1);
 
 	new_redir = malloc(sizeof(t_redir));
 	if (!new_redir)
 		return ;
-	// if (token->type == F_HERDOC) new_redir->fd = token->fd
-
-	// if (token->type == F_HERDOC)
-	// {
-	// 	printf("\nenter here\n");
-	// 	// *(new_redir->fd) = *(token->fd);
-	// }
-	// printf("\n!====>>>> fd: %d\n", (token->type));
-
-	new_redir->fd = malloc(sizeof(int));
-	if (!new_redir->fd)
-		return ;
+	
 	if (token->type == F_HERDOC)
 	{
-		// SEGV is here?? why??
-		printf("\nF_HERDOC\n");
-		*(new_redir->fd) = *(token->fd);
+		new_redir->fd = token->fd;
 		new_redir->type = token->type;
 		new_redir->next = NULL;
 	}
@@ -125,25 +117,35 @@ t_data *parsing(t_token **tokens)
 	t_data *lst;
 	t_data *current;
 
+
+
+
 	temp = *tokens;
+	// printf("--> %d\n", temp->fd);
 	lst = ft_lstnew_p();
 	current = lst;
 	while (temp)
 	{
+		// printf("-1!!!!-> %d\n", temp->fd);
 		if (temp->type == PIPE)
 		{
 			current->next = ft_lstnew_p();
 			current = current->next;
+			printf("j\n");
 		}
 		else if (temp->type == CMD)
 		{
+			printf("z\n");
 			current->cmd = ft_strdup(temp->value[0]);
 			add_argument(current, temp->value[0]);
 		}
 		else if (temp->type == WORD)
+		{
+			printf("9\n");
 			ft_check(current, temp);
+		}
 		else if (temp->type >= FREAD_IN && temp->type <= F_APPEND)
-			add_redirection(current, temp);
+			add_redirection(current, &temp);
 		temp = temp->next;
 	}
 	return (lst);

@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/18 16:54:05 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/18 23:00:35 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef	struct s_initalize
 typedef struct s_token
 {
 	char 			**value;
-	int				*fd;
+	int				fd;
 	t_keyword 		type;
 	struct s_token 	*next;
 } t_token;
@@ -82,7 +82,7 @@ typedef struct s_expand
 typedef struct s_redir
 {
 	char			*name;
-	int				*fd;
+	int				fd;
 	t_keyword		type;
 	struct s_redir 	*next;
 } t_redir;
@@ -143,7 +143,7 @@ void ft_rename(t_token *tokens);
 
 /*-------------ft_herdoc--------------*/
 
-void ft_herdoc(t_token *tokens);
+void ft_herdoc(t_token **tokens);
 
 /*===============libft===============*/
 char *ft_substr(char *s, int start, int len);

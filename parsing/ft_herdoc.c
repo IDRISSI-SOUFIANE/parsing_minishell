@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 05:40:07 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/18 21:11:19 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/18 23:07:54 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	open_herdoc(char *delimter)
 	write_fd = open(random_fd, O_RDWR | O_CREAT, 0777);
 
 	if (unlink(random_fd) || (write_fd < 0))
-		return (perror("faile"), close(write_fd), free(random_fd), 1);
+		return (perror("faile"), close(write_fd), free(random_fd), -1);
 	while (1)
 	{
 		line = readline("> ");
@@ -75,12 +75,12 @@ static int	open_herdoc(char *delimter)
 }
 
 
-void ft_herdoc(t_token *tokens)
+void ft_herdoc(t_token **tokens)
 {
 	t_token *current;
-	int		fd_;
+	int		fd_ = -1;
 
-	current = tokens;
+	current = *tokens;
 	while (current)
 	{
 		if (current->type == HERDOC
@@ -89,13 +89,9 @@ void ft_herdoc(t_token *tokens)
 			fd_ = open_herdoc(current->next->value[0]);
 			if (fd_ != -1)
 			{
-				current->fd = malloc(sizeof(int));
-	            if (!current->fd)
-		                return ;
-				*(current->fd) = fd_;
-				// printf("!<===>! current->fd : %d \n", *current->fd);
-				// while(1);
-				// free(current->fd);
+				current->next->fd = fd_;
+				//printf("!<===>! current->fd : %d \n", current->fd);
+
 			}
 		}
 		current = current->next;
