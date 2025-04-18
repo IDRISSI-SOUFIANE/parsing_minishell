@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 22:43:23 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/18 18:49:31 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/18 21:13:51 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,33 @@ void add_redirection(t_data *current, t_token *token)
 	new_redir = malloc(sizeof(t_redir));
 	if (!new_redir)
 		return ;
-	// if (token->type == F_HERDOX) new_redir->fd = token->fd
-	new_redir->name = ft_strdup(token->value[0]);
-	new_redir->type = token->type;
+	// if (token->type == F_HERDOC) new_redir->fd = token->fd
+
+	// if (token->type == F_HERDOC)
+	// {
+	// 	printf("\nenter here\n");
+	// 	// *(new_redir->fd) = *(token->fd);
+	// }
+	// printf("\n!====>>>> fd: %d\n", (token->type));
+
 	new_redir->fd = malloc(sizeof(int));
 	if (!new_redir->fd)
 		return ;
-	*new_redir->fd = -5;
-	new_redir->next = NULL;
+	if (token->type == F_HERDOC)
+	{
+		// SEGV is here?? why??
+		printf("\nF_HERDOC\n");
+		*(new_redir->fd) = *(token->fd);
+		new_redir->type = token->type;
+		new_redir->next = NULL;
+	}
+	else
+	{
+		printf("\n else \n");
+		new_redir->name = ft_strdup(token->value[0]);
+		new_redir->type = token->type;
+		new_redir->next = NULL;
+	}
 
 	if (!current->file)
 		current->file = new_redir;
