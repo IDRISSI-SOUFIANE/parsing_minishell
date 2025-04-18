@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/17 16:20:26 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/18 16:54:05 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ typedef	struct s_initalize
 }	t_initalize;
 
 
-
 typedef struct s_token
 {
-	char **value;
-	t_keyword type;
-	struct s_token *next;
+	char 			**value;
+	int				*fd;
+	t_keyword 		type;
+	struct s_token 	*next;
 } t_token;
 
 typedef struct s_expand
@@ -81,9 +81,10 @@ typedef struct s_expand
 
 typedef struct s_redir
 {
-	char *name;
-	t_keyword type;
-	struct s_redir *next;
+	char			*name;
+	int				*fd;
+	t_keyword		type;
+	struct s_redir 	*next;
 } t_redir;
 
 typedef struct s_data
@@ -94,6 +95,8 @@ typedef struct s_data
 	struct s_data *next;
 } t_data;
 
+
+// free in file garbage.c
 typedef struct	s_var_data
 {
 	t_data *current;
