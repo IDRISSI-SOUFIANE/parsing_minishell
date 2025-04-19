@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 22:43:23 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/19 20:21:55 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/19 20:48:34 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,52 +133,75 @@ static t_redir *create_new_redir(t_token *token)
     new_redir->type = token->type;
     new_redir->next = NULL;
 
-    if (token->type == F_HERDOC) {
+    if (token->type == F_HERDOC)
+	{
         new_redir->name = NULL;
         new_redir->fd = token->fd;
-    } else {
+    }
+	else
+	{
         new_redir->name = ft_strdup(token->value[0]);
         new_redir->fd = -1;
     }
 
-    return new_redir;
+    return (new_redir);
 }
 
 // Helper 2: Find last occurrence of redirection type
 static t_redir **find_last_redir_of_type(t_redir **head, t_keyword type)
 {
     t_redir **last = NULL;
-    while (*head) {
-        if ((*head)->type == type) last = head;
+    while (*head)
+	{
+        if ((*head)->type == type)
+			last = head;
         head = &(*head)->next;
     }
-    return last;
+    return (last);
 }
 
 // Updated replace_or_append_redir
+// static void replace_or_append_redir(t_redir **last, t_redir **head, t_redir *new_redir)
+// {
+//     if (last && *last)
+// 	{
+//         // Replace existing redirection
+//         if ((*last)->type == F_HERDOC)
+// 		{
+//             close((*last)->fd);
+//             (*last)->fd = new_redir->fd;
+//         }
+// 		else
+// 		{
+//             free((*last)->name);
+//             (*last)->name = new_redir->name;
+//         }
+//         free (new_redir);
+//     }
+// 	else
+// 	{
+//         // Append to end of list
+//         t_redir **p = head;
+//         while (*p) p = &(*p)->next;
+//         *p = new_redir;
+//     }
+// }
 static void replace_or_append_redir(t_redir **last, t_redir **head, t_redir *new_redir)
 {
-    if (last && *last)
-	{
-        // Replace existing redirection
-        if ((*last)->type == F_HERDOC)
-		{
+    if (last != NULL && *last != NULL) {
+        // Close existing heredoc FD before replacing
+        if ((*last)->type == F_HERDOC && (*last)->fd >= 0) {
             close((*last)->fd);
-            (*last)->fd = new_redir->fd;
         }
-		else
-		{
-            free((*last)->name);
-            (*last)->name = new_redir->name;
-        }
+        (*last)->fd = new_redir->fd;
         free(new_redir);
-    }
-	else
-	{
-        // Append to end of list
-        t_redir **p = head;
-        while (*p) p = &(*p)->next;
-        *p = new_redir;
+    } else {
+        // Append new redirection
+        t_redir **current = head;
+        while (*current != NULL) {
+            current = &(*current)->next;
+        }
+        *current = new_redir;
     }
 }
 

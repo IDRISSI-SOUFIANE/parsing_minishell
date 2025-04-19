@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 05:40:07 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/19 13:22:07 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/19 20:49:41 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ static int	open_herdoc(char *delimter)
 		write(write_fd, "\n", 1);
 		free(line);
 	}
-	  lseek(write_fd, 0, SEEK_SET);
+	lseek(write_fd, 0, SEEK_SET);
+	free(random_fd);
 	return (write_fd);// jloul surprise  || should close the prev file descriptor
 }
 /**/
@@ -129,6 +130,7 @@ void ft_herdoc(t_token **tokens)
 			if (fd_ != -1)
 				current->next->fd = fd_;
 		}
+		// close(fd_);
 		current = current->next;
 	}
 }
