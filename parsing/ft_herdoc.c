@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 05:40:07 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/18 23:07:54 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/19 13:22:07 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static char *generate_name()
 		return (perror("failed to open /dev/random"), NULL);
 	return (get_word(fd));
 }
+/**/
 static int	open_herdoc(char *delimter)
 {
 	int write_fd;
@@ -70,16 +71,54 @@ static int	open_herdoc(char *delimter)
 		write(write_fd, "\n", 1);
 		free(line);
 	}
-
+	  lseek(write_fd, 0, SEEK_SET);
 	return (write_fd);// jloul surprise  || should close the prev file descriptor
 }
+/**/
+
+
+
+// static int open_herdoc(char *delimter)
+// {
+//     int write_fd;
+//     char *random_fd;
+//     char *line;
+
+//     random_fd = generate_name();
+//     write_fd = open(random_fd, O_RDWR | O_CREAT | O_TRUNC, 0600); // Add O_TRUNC and fix permissions
+//     if (write_fd < 0)
+//     {
+//         perror("minishell: open");
+//         free(random_fd);
+//         return -1;
+//     }
+
+//     while (1)
+//     {
+//         line = readline("> ");
+//         if (!line || ft_strcmp(line, delimter) == 0)
+//         {
+//             free(line);
+//             break;
+//         }
+//         write(write_fd, line, ft_strlen(line));
+//         write(write_fd, "\n", 1);
+//         free(line);
+//     }
+
+//     // Reset file pointer to the start
+//     lseek(write_fd, 0, SEEK_SET);
+//     return write_fd;
+// }
+
 
 
 void ft_herdoc(t_token **tokens)
 {
 	t_token *current;
-	int		fd_ = -1;
+	int		fd_;
 
+	fd_ = -1;
 	current = *tokens;
 	while (current)
 	{
@@ -88,18 +127,11 @@ void ft_herdoc(t_token **tokens)
 		{
 			fd_ = open_herdoc(current->next->value[0]);
 			if (fd_ != -1)
-			{
 				current->next->fd = fd_;
-				//printf("!<===>! current->fd : %d \n", current->fd);
-
-			}
 		}
 		current = current->next;
 	}
 }
-
-
-
 
 
 

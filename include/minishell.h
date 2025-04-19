@@ -6,15 +6,13 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/18 23:00:35 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/19 10:50:39 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-
-// # include <libc.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -89,7 +87,7 @@ typedef struct s_redir
 
 typedef struct s_data
 {
-	char *cmd; // ALSO DOUBLE POINTER WHEN EXPAND $VAR="ONE TWO ..." ? => NO we don't need it cause the test is ls $var will seem them split, but the other test is to write $var will see them not split
+	char *cmd;
 	char **args;
 	t_redir *file;
 	struct s_data *next;

@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/18 23:00:55 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/19 20:24:54 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_token *lexing(char *line)
 	if (tokens == NULL)
 		return (NULL);
 	tokens->fd = 0;
-	error(tokens);
+	//error(tokens);
 	ft_rename(tokens);
 	ft_expand(tokens);
 	ft_herdoc(&tokens);
@@ -65,36 +65,9 @@ void	f()
 {
 	system("leaks minishell");
 }
-
-int main(int ac, char **av, char **env)
-{
-	// atexit(f);
-	(void)ac;
-	(void)av;
-	(void)env; // I am voiding env cause in expand i am using function getenv()
-
-	char	*line;
-	t_token	*tokens;
-	t_data	*data;
-
-	while (1)
-	{
-		line = readline("Minishell: ");
-		if (line == NULL)
-		{
-			// free_data(data);
-			// free_tokens(tokens);
-			break;
-		}
-		tokens = lexing(line);
-		data = parsing(&tokens);
-
-		// lexing(line);
-
-		//
-			// excution();
-		//
-		/*		printe cause leaks				*/
+// void ft_excution(t_data *data)
+// {
+	/*		printe cause leaks				
 			// PRINT
 			t_data *tmp = data;
 			while (tmp)
@@ -118,11 +91,103 @@ int main(int ac, char **av, char **env)
 						if (tmp->file->type != F_HERDOC)
 							printf("[fname: %s | ftype: %d]\n",  (tmp->file->name), tmp->file->type);
 						else
-							printf("[fname: %d | ftype: %d]\n",  (tmp->file->fd), tmp->file->type);
+						{
+							printf("[fd: %d | ftype: %d]\n",  (tmp->file->fd), tmp->file->type);
+							
+								// char	buffer[1337];
+								// int		reads_size;
+								// if (tmp->file->fd < 0)
+								// 	printf("fd is failed\n");
+								
+
+
+								// reads_size = read(tmp->file->fd, buffer, 1337);
+								// printf("reads_size: %d\n", reads_size);
+								
+								// buffer[reads_size] = '\0';
+								
+								// printf("buffer: %s\n", buffer);
+								// if (reads_size <= 0)
+								// 	printf("reads_size read nothing\n");
+								// // printf("%s\n", buffer);
+								// //printf("[fd: %d | ftype: %d]\n",  (tmp->file->fd), tmp->file->type);
+							
+						}
 						
 						tmp->file = tmp->file->next;
 					}
+					
 				}
+				tmp = tmp->next;
+			}
+								*/
+
+
+
+		//
+												// t_data *tmp = data;
+												// tmp = data;
+												// // char	buffer[1337];
+												// // int		reads_size;
+												
+												// if (tmp->file->fd < 0)
+												// 	printf("fd is failed\n");
+												
+
+												// printf("[%d] | [%s] \n", tmp->file->fd, tmp->file->name);
+
+												// reads_size = read(tmp->file->fd, buffer, 1337);
+												// printf("reads_size: %d\n", reads_size);
+												
+												// buffer[reads_size] = '\0';
+												
+												// printf("buffer: %s\n", buffer);
+												// if (reads_size <= 0)
+												// 	printf("reads_size read nothing\n");
+												// printf("%s\n", buffer);
+		//
+// }
+
+
+
+
+int main(int ac, char **av, char **env)
+{
+	atexit(f);
+	(void)ac;
+	(void)av;
+	(void)env; // I am voiding env cause in expand i am using function getenv()
+
+	char	*line;
+	t_token	*tokens;
+	t_data	*data;
+
+	while (1)
+	{
+		line = readline("Minishell: ");
+		if (line == NULL)
+		{
+			// free_data(data);
+			// free_tokens(tokens);
+			break;
+		}
+		tokens = lexing(line);
+		data = parsing(&tokens);
+		// ft_excution(data);
+
+		// lexing(line);
+
+		//
+			// excution(data);
+		//
+		if (line[0] != '\0')
+			add_history(line);
+		free(line);
+		free_data(data);
+		free_tokens(tokens);
+	}
+	return (0);
+}
 
 				/*
 				
@@ -138,27 +203,8 @@ int main(int ac, char **av, char **env)
 				}
 				*/
 
-				printf("\n");
-				tmp = tmp->next;
-			}
-		/*				*/
-		//
-		// t_data *tmp = data;
-
-		// tmp = data;
-		// int fd = open (tmp->file->name, O_RDONLY);
-		// if(fd < 0)
-		// 	printf("soufiane fail\n");
-		if (line[0] != '\0')
-			add_history(line);
-		free(line);
-		free_data(data);
-		free_tokens(tokens);
-	}
-	return (0);
-}
-
-
+				// printf("\n");
+				// tmp = tmp->next;
 
 
 
