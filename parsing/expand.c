@@ -552,7 +552,7 @@ static char **split(t_expand *ex, int *flag)
 	return (result);
 }
 
-static char **expand_string(char *str, int *flag)
+char **expand_string(char *str, int *flag)
 {
 	t_expand ex;
 

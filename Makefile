@@ -9,7 +9,7 @@ SRC = parsing/main.c parsing/tokenization.c parsing/grabage.c parsing/error.c\
 	libft/linked_list.c libft/ft_substr.c libft/ft_strdup.c libft/ft_isprint.c\
 	libft/ft_isalnum.c libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_strncmp.c\
 	libft/ft_strndup.c libft/ft_allocate.c libft/ft_strcat.c libft/ft_strncpy.c\
-	libft/ft_memset.c libft/ft_strcmp.c libft/ft_split.c\
+	libft/ft_memset.c libft/ft_strcmp.c libft/ft_split.c libft/ft_strtrim.c\
 
 OBJ = $(SRC:.c=.o)
 

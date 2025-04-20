@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/19 20:24:54 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/20 22:56:45 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ void	f()
 {
 	system("leaks minishell");
 }
-// void ft_excution(t_data *data)
-// {
-	/*		printe cause leaks				
+void ft_excution(t_data *data)
+{
+	/*		printe cause leaks				*/
 			// PRINT
 			t_data *tmp = data;
 			while (tmp)
@@ -89,28 +89,32 @@ void	f()
 					while (tmp->file)
 					{
 						if (tmp->file->type != F_HERDOC)
+						{
 							printf("[fname: %s | ftype: %d]\n",  (tmp->file->name), tmp->file->type);
+							// if (tmp->file->name)
+								free(tmp->file->name);
+						}
 						else
 						{
 							printf("[fd: %d | ftype: %d]\n",  (tmp->file->fd), tmp->file->type);
 							
-								// char	buffer[1337];
-								// int		reads_size;
-								// if (tmp->file->fd < 0)
-								// 	printf("fd is failed\n");
+								char	buffer[1337];
+								int		reads_size;
+								if (tmp->file->fd < 0)
+									printf("fd is failed\n");
 								
 
 
-								// reads_size = read(tmp->file->fd, buffer, 1337);
-								// printf("reads_size: %d\n", reads_size);
+								reads_size = read(tmp->file->fd, buffer, 1337);
+								printf("reads_size: %d\n", reads_size);
 								
-								// buffer[reads_size] = '\0';
+								buffer[reads_size] = '\0';
 								
-								// printf("buffer: %s\n", buffer);
-								// if (reads_size <= 0)
-								// 	printf("reads_size read nothing\n");
-								// // printf("%s\n", buffer);
-								// //printf("[fd: %d | ftype: %d]\n",  (tmp->file->fd), tmp->file->type);
+								printf("buffer: %s\n", buffer);
+								if (reads_size <= 0)
+									printf("reads_size read nothing\n");
+								// printf("%s\n", buffer);
+								//printf("[fd: %d | ftype: %d]\n",  (tmp->file->fd), tmp->file->type);
 							
 						}
 						
@@ -120,7 +124,7 @@ void	f()
 				}
 				tmp = tmp->next;
 			}
-								*/
+			/*					*/
 
 
 
@@ -146,10 +150,14 @@ void	f()
 												// 	printf("reads_size read nothing\n");
 												// printf("%s\n", buffer);
 		//
-// }
+}
 
 
+/* Problem
+	the problem the leaks maybe 89% in free_data => when we call multiple file maybe we are not free the previous allocation of these files
+	the test: < a < b < c > d
 
+*/
 
 int main(int ac, char **av, char **env)
 {
@@ -173,8 +181,9 @@ int main(int ac, char **av, char **env)
 		}
 		tokens = lexing(line);
 		data = parsing(&tokens);
-		// ft_excution(data);
 
+		ft_excution(data);
+		
 		// lexing(line);
 
 		//

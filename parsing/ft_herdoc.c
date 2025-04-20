@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 05:40:07 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/19 20:49:41 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/20 22:55:52 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ static char *get_word(int fd)
 
 static char *generate_name()
 {
-	int fd = open("/dev/random", O_RDONLY);
+	int fd = open("/dev/urandom", O_RDONLY);
 	if (fd < 0)
 		return (perror("failed to open /dev/random"), NULL);
 	return (get_word(fd));
 }
 /**/
-static int	open_herdoc(char *delimter)
+ int	open_herdoc(char *delimter)
 {
 	int write_fd;
 	char *random_fd;
@@ -57,12 +57,43 @@ static int	open_herdoc(char *delimter)
 
 	if (unlink(random_fd) || (write_fd < 0))
 		return (perror("faile"), close(write_fd), free(random_fd), -1);
+	
+	if (delimter[0] == '\'' || delimter[0] == '\"')
+	{
+		int	n = 8;
+		char qoute = delimter[0];
+		char*   new_delimter = ft_strtrim ("delimter", &qoute);
+		char**    exp = expand_string(new_delimter, &n);
+
+		free(new_delimter);
+
+		int len =  ft_strlen(delimter);
+
+		char      *line = malloc(len + 1);
+
+		int    i = 1;
+		while (i < len)
+		{
+			if (i == 0 || i == (len - 1))
+				line[i] = delimter[i];
+			else
+			{
+				int	j;
+				j = 0;
+				while (j < (len-1))
+				{
+					line[i] = *exp[j];
+					j++;
+				}
+			}
+			i++;
+		}
+
+	}
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
-			break;
-		if (ft_strcmp(line, delimter) == 0)
+		if ((!line) || ft_strcmp(line, delimter) == 0)
 		{
 			free(line);
 			break;
@@ -72,8 +103,7 @@ static int	open_herdoc(char *delimter)
 		free(line);
 	}
 	lseek(write_fd, 0, SEEK_SET);
-	free(random_fd);
-	return (write_fd);// jloul surprise  || should close the prev file descriptor
+	return (free(random_fd), write_fd);// jloul surprise  || should close the prev file descriptor
 }
 /**/
 
@@ -111,6 +141,7 @@ static int	open_herdoc(char *delimter)
 //     lseek(write_fd, 0, SEEK_SET);
 //     return write_fd;
 // }
+
 
 
 

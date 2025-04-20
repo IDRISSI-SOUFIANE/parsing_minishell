@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/19 10:50:39 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/20 22:13:44 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,12 +135,12 @@ int error(t_token *tokens);
 
 /*---------------expand---------------*/
 void ft_expand(t_token *tokens);
+char **expand_string(char *str, int *flag);
 
 /*---------------ft_rename------------*/
 void ft_rename(t_token *tokens);
 
 /*-------------ft_herdoc--------------*/
-
 void ft_herdoc(t_token **tokens);
 
 /*===============libft===============*/
@@ -161,6 +161,8 @@ int ft_isalpha(int c);
 int ft_isdigit(int c);
 void *ft_memset(void *b, int c, size_t len);
 int ft_strcmp(char *s1, char *s2);
+char	*ft_strtrim(char *s1, char *set);
+
 
 /***************ft_split************* */
 
