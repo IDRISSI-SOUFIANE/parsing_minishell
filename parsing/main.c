@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/20 22:56:45 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/21 23:07:57 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,11 @@ void ft_excution(t_data *data)
 				printf("Arguments:");
 				if (tmp->args)
 				{
+					// printf("tmp->arg[1]: %s\n", tmp->args[1]);
 					for (int i = 0; tmp->args[i]; i++)
 						printf(" |%s|", tmp->args[i]);
 				}
+				//Print files
 				printf("\n");
 				if (tmp->file)
 				{
@@ -91,8 +93,7 @@ void ft_excution(t_data *data)
 						if (tmp->file->type != F_HERDOC)
 						{
 							printf("[fname: %s | ftype: %d]\n",  (tmp->file->name), tmp->file->type);
-							// if (tmp->file->name)
-								free(tmp->file->name);
+							free(tmp->file->name);
 						}
 						else
 						{
@@ -113,9 +114,6 @@ void ft_excution(t_data *data)
 								printf("buffer: %s\n", buffer);
 								if (reads_size <= 0)
 									printf("reads_size read nothing\n");
-								// printf("%s\n", buffer);
-								//printf("[fd: %d | ftype: %d]\n",  (tmp->file->fd), tmp->file->type);
-							
 						}
 						
 						tmp->file = tmp->file->next;
@@ -124,32 +122,6 @@ void ft_excution(t_data *data)
 				}
 				tmp = tmp->next;
 			}
-			/*					*/
-
-
-
-		//
-												// t_data *tmp = data;
-												// tmp = data;
-												// // char	buffer[1337];
-												// // int		reads_size;
-												
-												// if (tmp->file->fd < 0)
-												// 	printf("fd is failed\n");
-												
-
-												// printf("[%d] | [%s] \n", tmp->file->fd, tmp->file->name);
-
-												// reads_size = read(tmp->file->fd, buffer, 1337);
-												// printf("reads_size: %d\n", reads_size);
-												
-												// buffer[reads_size] = '\0';
-												
-												// printf("buffer: %s\n", buffer);
-												// if (reads_size <= 0)
-												// 	printf("reads_size read nothing\n");
-												// printf("%s\n", buffer);
-		//
 }
 
 
@@ -198,22 +170,41 @@ int main(int ac, char **av, char **env)
 	return (0);
 }
 
-				/*
-				
-					if (tmp->file)
-				{
-					while (tmp->file)
-					{
-						printf("[fd: %s | ftype: %d]\n", 
-						(tmp->file->fd) ? *(tmp->file->fd) : "(null)", 
-						tmp->file->type);
-						tmp->file = tmp->file->next;
-					}
-				}
-				*/
 
-				// printf("\n");
-				// tmp = tmp->next;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

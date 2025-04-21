@@ -498,7 +498,7 @@ static void process_dollar(t_expand *ex, char *str)
 		handle_even_dollars(ex);
 }
 
-static void handle_single_quote(t_expand *ex, char *str)
+static void handle_single_quote(t_expand *ex, char *str, int *flag)
 {
 	ex->i++;
 	while (str[ex->i] && str[ex->i] != '\'')
@@ -508,6 +508,7 @@ static void handle_single_quote(t_expand *ex, char *str)
 	}
 	if (str[ex->i] == '\'')
 		ex->i++;
+	*flag = 1;
 }
 
 static void handle_double_quote(t_expand *ex, char *str)
@@ -532,6 +533,8 @@ static void handle_double_quote(t_expand *ex, char *str)
 static char **split(t_expand *ex, int *flag)
 {
 	char **result;
+
+	printf("==>flag: %d\n", *flag);
 
 	if (*flag == 0)
 	{
@@ -563,7 +566,7 @@ char **expand_string(char *str, int *flag)
 	while (str[ex.i])
 	{
 		if (str[ex.i] == '\'')
-			handle_single_quote(&ex, str);
+			handle_single_quote(&ex, str, flag);
 		else if (str[ex.i] == '"')
 		{
 			handle_double_quote(&ex, str);
@@ -579,60 +582,6 @@ char **expand_string(char *str, int *flag)
 	}
 	return (split(&ex, flag));
 }
-
-
-// int	ft_strcmp_ex(char *s1, char *s2)
-// {
-// 	int	i;
-
-// 	// if (!s1 || !s2)
-// 		// return (NULL);
-// 	// if not work create a new function do the same in other name and allocat '\0'
-
-// 	i = 0;
-// 	while (s1[i] && s2[i])
-// 	{
-// 		if (s1[i] != s2[i])
-// 			break ;
-// 		i++;
-// 	}
-// 	if (s1[i] != s2[i])
-// 		return (s1[i] - s2[i]);
-// 	return (s1[i] - s2[i]);
-// }
-
-// int	ft_null(char *s)
-// {
-// 	char	*s_q;
-// 	char	*d_q;
-// 	char	*str;
-// 	str = NULL;
-	
-// 	d_q = ft_strdup("\"\"");
-// 	s_q = ft_strdup("\'\'");
-
-
-// 	str = ft_strdup(s);
-
-// 	printf("\n str: %s\n", str);
-
-// 	// while (1);
-
-// 	if (!ft_strcmp_ex(str, s_q) || !ft_strcmp_ex(s, d_q))
-// 	{
-// 		free(str);
-// 		free(d_q);
-// 		free(s_q);
-// 		return (1);
-// 	}
-// 			free(d_q);
-// 		free(s_q);
-// 	free(str);
-// 	return (0);
-// }
-
-
-
 
 int	ft_null(char *s)
 {
@@ -658,6 +607,14 @@ void ft_expand(t_token *tokens)
 		{
 			flag = 0;
 			expanded = expand_string(tokens->value[0], &flag);
+	
+
+			// int	j = 0;
+			// while (expanded[j])
+			// {
+			// 	printf("expanded[%d]: %s \n", j, expanded[j]);
+			// 	j++;
+			// }
 			if (tokens->value)
 			{
 				i = 0;
@@ -670,6 +627,12 @@ void ft_expand(t_token *tokens)
 				free(tokens->value);
 			}
 			tokens->value = expanded;
+			// int	j = 0;
+			// while (tokens->value[j])
+			// {
+			// 	printf("tokens->value[%d]: %s \n", j, tokens->value[j]);
+			// 	j++;
+			// }
 		}
 		tokens = tokens->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 22:43:23 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/20 16:58:19 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/21 23:56:59 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,36 +24,36 @@ t_data *ft_lstnew_p(void)
 	return (new_node);
 }
 
-// void add_redirection(t_data *current, t_token **tokens)
-// {
-// 	t_redir *new_redir;
-// 	t_redir *last;
-// 	t_token *token;
+void add_redirection(t_data *current, t_token **tokens)
+{
+	t_redir *new_redir;
+	t_redir *last;
+	t_token *token;
 
-// 	token = *tokens;
-// 	new_redir = malloc(sizeof(t_redir));
-// 	if (!new_redir)
-// 		return ;
-// 	if (token->type == F_HERDOC)
-// 		new_redir->fd = token->fd;
-// 	else
-// 	{
-// 		new_redir->name = ft_strdup(token->value[0]);
-// 		new_redir->fd  = -101; // should do handle line 25
-// 	}
-// 	new_redir->type = token->type;
-// 	new_redir->next = NULL;
+	token = *tokens;
+	new_redir = malloc(sizeof(t_redir));
+	if (!new_redir)
+		return ;
+	if (token->type == F_HERDOC)
+		new_redir->fd = token->fd;
+	else
+	{
+		new_redir->name = ft_strdup(token->value[0]);
+		new_redir->fd  = -101; // should do handle line 25
+	}
+	new_redir->type = token->type;
+	new_redir->next = NULL;
 
-// 	if (!current->file)
-// 		current->file = new_redir;
-// 	else
-// 	{
-// 		last = current->file;
-// 		while (last->next)
-// 			last = last->next;
-// 		last->next = new_redir;
-// 	}
-// }
+	if (!current->file)
+		current->file = new_redir;
+	else
+	{
+		last = current->file;
+		while (last->next)
+			last = last->next;
+		last->next = new_redir;
+	}
+}
 
 
 
@@ -124,6 +124,7 @@ t_data *ft_lstnew_p(void)
 // }
 
 
+/* mn hna bdya t9sima dyal akhir file
 static t_redir *create_new_redir(t_token *token)
 {
     t_redir *new_redir = malloc(sizeof(t_redir));
@@ -217,9 +218,10 @@ void add_redirection(t_data *current, t_token **tokens)
     
     replace_or_append_redir(last_match, head, new_redir);
 }
+*/
 
 
-
+/*should start from here */
 
 void add_argument(t_data *current, char *arg)
 {
@@ -287,6 +289,8 @@ t_data *parsing(t_token **tokens)
 		else if (temp->type == CMD)
 		{
 			current->cmd = ft_strdup(temp->value[0]);
+			/*should start from here */
+// you send just one string each time should chrck this line, I am now tired
 			add_argument(current, temp->value[0]);
 		}
 		else if (temp->type == WORD)

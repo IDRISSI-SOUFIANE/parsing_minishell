@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 05:40:07 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/20 22:55:52 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/21 22:22:47 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,51 +45,25 @@ static char *generate_name()
 		return (perror("failed to open /dev/random"), NULL);
 	return (get_word(fd));
 }
-/**/
+
  int	open_herdoc(char *delimter)
 {
-	int write_fd;
-	char *random_fd;
+	int fd;
+	char *random_name;
 	char *line;
+	char	**exp;
+	char	*new_line;
+	int	n;
 
-	random_fd = generate_name();
-	write_fd = open(random_fd, O_RDWR | O_CREAT, 0777);
 
-	if (unlink(random_fd) || (write_fd < 0))
-		return (perror("faile"), close(write_fd), free(random_fd), -1);
-	
-	if (delimter[0] == '\'' || delimter[0] == '\"')
-	{
-		int	n = 8;
-		char qoute = delimter[0];
-		char*   new_delimter = ft_strtrim ("delimter", &qoute);
-		char**    exp = expand_string(new_delimter, &n);
+	n = 8;
 
-		free(new_delimter);
+	random_name = generate_name();
+	fd = open(random_name, O_RDWR | O_CREAT, 0777);
 
-		int len =  ft_strlen(delimter);
+	if (unlink(random_name) || (fd < 0))
+		return (perror("faile"), close(fd), free(random_name), -1);
 
-		char      *line = malloc(len + 1);
-
-		int    i = 1;
-		while (i < len)
-		{
-			if (i == 0 || i == (len - 1))
-				line[i] = delimter[i];
-			else
-			{
-				int	j;
-				j = 0;
-				while (j < (len-1))
-				{
-					line[i] = *exp[j];
-					j++;
-				}
-			}
-			i++;
-		}
-
-	}
 	while (1)
 	{
 		line = readline("> ");
@@ -98,51 +72,14 @@ static char *generate_name()
 			free(line);
 			break;
 		}
-		write(write_fd, line, ft_strlen(line));
-		write(write_fd, "\n", 1);
-		free(line);
+		exp = ft_expand_herdoc(line, &n);
+		new_line = exp[0];
+		(write(fd, new_line, ft_strlen(new_line)), write(fd, "\n", 1));
+		(free(line), free(new_line), free(exp));
 	}
-	lseek(write_fd, 0, SEEK_SET);
-	return (free(random_fd), write_fd);// jloul surprise  || should close the prev file descriptor
+	lseek(fd, 0, SEEK_SET);
+	return (free(random_name), fd);// jloul surprise  || should close the prev file descriptor
 }
-/**/
-
-
-
-// static int open_herdoc(char *delimter)
-// {
-//     int write_fd;
-//     char *random_fd;
-//     char *line;
-
-//     random_fd = generate_name();
-//     write_fd = open(random_fd, O_RDWR | O_CREAT | O_TRUNC, 0600); // Add O_TRUNC and fix permissions
-//     if (write_fd < 0)
-//     {
-//         perror("minishell: open");
-//         free(random_fd);
-//         return -1;
-//     }
-
-//     while (1)
-//     {
-//         line = readline("> ");
-//         if (!line || ft_strcmp(line, delimter) == 0)
-//         {
-//             free(line);
-//             break;
-//         }
-//         write(write_fd, line, ft_strlen(line));
-//         write(write_fd, "\n", 1);
-//         free(line);
-//     }
-
-//     // Reset file pointer to the start
-//     lseek(write_fd, 0, SEEK_SET);
-//     return write_fd;
-// }
-
-
 
 
 void ft_herdoc(t_token **tokens)
@@ -165,159 +102,4 @@ void ft_herdoc(t_token **tokens)
 		current = current->next;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**************************-******************-****************/
-
-// #include "../include/minishell.h"
-
-// #define NAME_LENGTH 9
-
-// static char *get_word(int fd)
-// {
-//     char *name = malloc(NAME_LENGTH + 1);
-//     if (!name)
-//         return (perror("minishell: malloc"), NULL);
-    
-//     int count = 0;
-//     char buffer;
-//     while (count < NAME_LENGTH)
-//     {
-//         if (read(fd, &buffer, 1) < 0)
-//         {
-//             free(name);
-//             return (perror("minishell: read"), NULL);
-//         }
-//         if (ft_isalnum(buffer))
-//             name[count++] = buffer;
-//     }
-//     name[NAME_LENGTH] = '\0';
-//     return name;
-// }
-
-// static char *generate_name(void)
-// {
-//     int fd = open("/dev/urandom", O_RDONLY);
-//     if (fd < 0)
-//     {
-//         perror("minishell: open");
-//         return NULL;
-//     }
-//     char *name = get_word(fd);
-//     close(fd);
-//     return name;
-// }
-
-// static int open_herdoc(char *delimiter)
-// {
-//     char *random_name = generate_name();
-//     if (!random_name)
-//         return -1;
-
-//     int fd = open(random_name, O_RDWR | O_CREAT | O_TRUNC, 0600);
-//     if (fd < 0)
-//     {
-//         perror("minishell: open");
-//         free(random_name);
-//         return -1;
-//     }
-//     unlink(random_name);
-//     free(random_name);
-
-//     char *line;
-//     while (1)
-//     {
-//         line = readline("> ");
-//         if (!line || ft_strcmp(line, delimiter) == 0)
-//         {
-//             free(line);
-//             break;
-//         }
-//         write(fd, line, ft_strlen(line));
-//         write(fd, "\n", 1);
-//         free(line);
-//     }
-//     lseek(fd, 0, SEEK_SET);
-//     return fd;
-// }
-
-// void ft_herdoc(t_token *tokens)
-// {
-//     t_token *current = tokens;
-//     while (current) {
-//         if (current->type == HERDOC && current->next && current->next->type == F_HERDOC) {
-//             if (!current->fd) {
-//                 current->fd = malloc(sizeof(int));
-//                 if (!current->fd) {
-//                     perror("minishell: malloc");
-//                     return;
-//                 }
-//                 *(current->fd) = -1; // Initialize to -1
-//             }
-//             int fd = open_herdoc(current->next->value[0]);
-//             if (fd != -1)
-//             {
-//                 *(current->fd) = fd;
-//                 printf("===>> current->fd: %d | fd: %d\n", *current->fd, fd);
-//                 free(current->fd);
-//             } else {
-//                 *(current->fd) = -1; // Explicitly mark as invalid
-//             }
-//         }
-//         current = current->next;
-//     }
-// }
-
-
-
-
-/************-***********-**************-**************************/
-// void ft_herdoc(t_token *tokens)
-// {
-// 	t_token *current;
-// 	char *name;
-
-// 	current = tokens;
-// 	while (current)
-// 	{
-// 		if (current->type == HERDOC
-// 			&& current->next && current->next->type == F_HERDOC)
-// 		{
-// 			name = open_herdoc(current->next->value[0]);
-// 			if (name)
-// 			{
-// 				free(current->next->value[0]);
-// 				current->next->value[0] = name;
-// 			}
-// 		}
-// 		current = current->next;
-// 	}
-// }
-
-
 
