@@ -6,11 +6,12 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/21 23:07:57 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:02:06 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
 
 int check_quotes(char *line, int i, int count_quote)
 {
@@ -39,7 +40,7 @@ int check_quotes(char *line, int i, int count_quote)
 	return (0);
 }
 
-t_token *lexing(char *line)
+t_token *lexing(char *line, int *flag)
 {
 	int		i;
 	int		count_quote;
@@ -54,75 +55,202 @@ t_token *lexing(char *line)
 	if (tokens == NULL)
 		return (NULL);
 	tokens->fd = 0;
-	//error(tokens);
+	if (error(tokens))
+	{
+		*flag = 1;
+		return (tokens);
+	}
 	ft_rename(tokens);
 	ft_expand(tokens);
 	ft_herdoc(&tokens);
 	return (tokens);
 }
 
+
+
+// void ft_excution(t_data *data)
+// {
+// 	/*		printe cause leaks				*/
+// 			// PRINT
+// 			t_data *tmp = data;
+// 			while (tmp)
+// 			{
+
+// 				printf("\n\n");
+// 				printf("Command: %s\n", tmp->cmd ? tmp->cmd : "(no command)");
+
+// 				// Print arguments
+// 				printf("Arguments:");
+// 				if (tmp->args)
+// 				{
+// 					// printf("tmp->arg[1]: %s\n", tmp->args[1]);
+// 					for (int i = 0; tmp->args[i]; i++)
+// 						printf(" |%s|", tmp->args[i]);
+// 				}
+// 				//Print files
+// 				printf("\n");
+// 				if (tmp->file)
+// 				{
+// 					while (tmp->file)
+// 					{
+// 						if (tmp->file->type != F_HERDOC)
+// 						{
+// 							printf("[fname: %s | ftype: %d]\n",  (tmp->file->name), tmp->file->type);
+// 							free(tmp->file->name);
+// 						}
+// 						else
+// 						{
+// 							printf("[fd: %d | ftype: %d]\n",  (tmp->file->fd), tmp->file->type);
+							
+// 								char	buffer[1337];
+// 								int		reads_size;
+// 								if (tmp->file->fd < 0)
+// 									printf("fd is failed\n");
+								
+
+
+// 								reads_size = read(tmp->file->fd, buffer, 1337);
+// 								printf("reads_size: %d\n", reads_size);
+								
+// 								buffer[reads_size] = '\0';
+								
+// 								printf("buffer: %s\n", buffer);
+// 								if (reads_size <= 0)
+// 									printf("reads_size read nothing\n");
+// 						}
+						
+// 						tmp->file = tmp->file->next;
+// 					}
+					
+// 				}
+// 				tmp = tmp->next;
+// 			}
+// }
+
+
+
 void	f()
 {
 	system("leaks minishell");
 }
-void ft_excution(t_data *data)
+
+int main(int ac, char **av, char **env)
 {
-	/*		printe cause leaks				*/
-			// PRINT
-			t_data *tmp = data;
-			while (tmp)
-			{
+	// atexit(f);
+	(void)ac;
+	(void)av;
+	(void)env; // I am voiding env cause in expand i am using function getenv()
 
-				printf("\n\n");
-				printf("Command: %s\n", tmp->cmd ? tmp->cmd : "(no command)");
+	char	*line;
+	t_token	*tokens;
+	t_data	*data;
+	int		flag;
 
-				// Print arguments
-				printf("Arguments:");
-				if (tmp->args)
-				{
-					// printf("tmp->arg[1]: %s\n", tmp->args[1]);
-					for (int i = 0; tmp->args[i]; i++)
-						printf(" |%s|", tmp->args[i]);
-				}
-				//Print files
-				printf("\n");
-				if (tmp->file)
-				{
-					while (tmp->file)
-					{
-						if (tmp->file->type != F_HERDOC)
-						{
-							printf("[fname: %s | ftype: %d]\n",  (tmp->file->name), tmp->file->type);
-							free(tmp->file->name);
-						}
-						else
-						{
-							printf("[fd: %d | ftype: %d]\n",  (tmp->file->fd), tmp->file->type);
-							
-								char	buffer[1337];
-								int		reads_size;
-								if (tmp->file->fd < 0)
-									printf("fd is failed\n");
-								
+	while (1)
+	{
+		flag = 0;
+		line = readline("Minishell: ");
+		if (line == NULL)
+		{
+			// free_data(data);
+			// free_tokens(tokens);
+			break;
+		}
+		tokens = lexing(line, &flag);
 
 
-								reads_size = read(tmp->file->fd, buffer, 1337);
-								printf("reads_size: %d\n", reads_size);
-								
-								buffer[reads_size] = '\0';
-								
-								printf("buffer: %s\n", buffer);
-								if (reads_size <= 0)
-									printf("reads_size read nothing\n");
-						}
-						
-						tmp->file = tmp->file->next;
-					}
-					
-				}
-				tmp = tmp->next;
-			}
+
+		if (flag == 0)
+		{
+			//printf("he enter here flag: %d\n", flag);
+			data = parsing(&tokens);
+			//	execution
+				// ft_excution(data);
+			//
+			free_data(data);
+			free_tokens(tokens);
+		}
+		else
+		{
+			//printf("he enter here?????");
+			free_tokens(tokens);
+		}
+		//		test: lexing(line);
+		if (line[0] != '\0')
+			add_history(line);
+
+		free(line);
+		// flag = 0;
+	}
+	return (0);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* Problem
@@ -131,44 +259,65 @@ void ft_excution(t_data *data)
 
 */
 
-int main(int ac, char **av, char **env)
-{
-	atexit(f);
-	(void)ac;
-	(void)av;
-	(void)env; // I am voiding env cause in expand i am using function getenv()
 
-	char	*line;
-	t_token	*tokens;
-	t_data	*data;
 
-	while (1)
-	{
-		line = readline("Minishell: ");
-		if (line == NULL)
-		{
-			// free_data(data);
-			// free_tokens(tokens);
-			break;
-		}
-		tokens = lexing(line);
-		data = parsing(&tokens);
 
-		ft_excution(data);
-		
-		// lexing(line);
 
-		//
-			// excution(data);
-		//
-		if (line[0] != '\0')
-			add_history(line);
-		free(line);
-		free_data(data);
-		free_tokens(tokens);
-	}
-	return (0);
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

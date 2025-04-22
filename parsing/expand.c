@@ -534,7 +534,7 @@ static char **split(t_expand *ex, int *flag)
 {
 	char **result;
 
-	printf("==>flag: %d\n", *flag);
+	//printf("==>flag: %d\n", *flag);
 
 	if (*flag == 0)
 	{
@@ -607,14 +607,6 @@ void ft_expand(t_token *tokens)
 		{
 			flag = 0;
 			expanded = expand_string(tokens->value[0], &flag);
-	
-
-			// int	j = 0;
-			// while (expanded[j])
-			// {
-			// 	printf("expanded[%d]: %s \n", j, expanded[j]);
-			// 	j++;
-			// }
 			if (tokens->value)
 			{
 				i = 0;
@@ -627,12 +619,6 @@ void ft_expand(t_token *tokens)
 				free(tokens->value);
 			}
 			tokens->value = expanded;
-			// int	j = 0;
-			// while (tokens->value[j])
-			// {
-			// 	printf("tokens->value[%d]: %s \n", j, tokens->value[j]);
-			// 	j++;
-			// }
 		}
 		tokens = tokens->next;
 	}

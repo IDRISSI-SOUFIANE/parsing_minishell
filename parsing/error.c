@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:50:45 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/09 12:17:34 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:59:54 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,20 @@ int	pipe_check(t_token *prev, t_token *next)
 	return (0);
 }
 
-int	redierct_check(t_token *prev, t_token *next)
+int	redierct_check(t_token *prev, t_token *current, t_token *next)
 {
-	if (!next || next->type != WORD)
+	(void)current;
+	// printf("==>next->type: %d\n", next->type);
+	// printf("child--->current->type: %d\n", current->type);
+	// // you don't need to check current if NULL cause we check it in main function if (is_redirect(current->type))
+	// if (!next && (current->type >= READ_IN && current->type <= HERDOC))
 		return (1);
+	
+	if ((!next || next->type != WORD) && next->next == NULL)
+		return (1);
+
+
+	
 	else if (next->type == WORD && prev && is_pipe(prev->type));
 	else if (prev && (is_redirect(prev->type) || is_pipe(prev->type))
 			&& next->type != WORD)
@@ -94,9 +104,14 @@ int	error(t_token *tokens)
 		if (is_pipe(current->type))
 			if (pipe_check(prev, next) || is_invalide(current, current->value))
 				return (ft_putstr_fd(ERROR, STDERR_FILENO), 1);
+		
 		if (is_redirect(current->type))
-			if (redierct_check(prev, next) || is_invalide(current, current->value))
-			return (ft_putstr_fd(ERROR, STDERR_FILENO), 1);
+		{
+		//	printf("--->current->type: %d\n", current->type);
+			if (redierct_check(prev, current, next) || is_invalide(current, current->value))
+				return (ft_putstr_fd(ERROR, STDERR_FILENO), 1);
+		}
+		
 		prev = current;
 		current = next;
 	}

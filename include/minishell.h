@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/21 22:31:21 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:47:48 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@
 #include <readline/history.h>
 #include <string.h> 
 
-#define ERROR "minishell: syntax error near unexpected token\n"
+#define ERROR "syntax error near unexpected token\n"
 #define name_length 9
 
 typedef enum s_keyword
 {
-	READ_IN,
 	WRITE_OUT,
+	READ_IN,
 	APPEND,
 	HERDOC,
 	PIPE,
@@ -113,7 +113,7 @@ t_data *parsing(t_token **tokens);
 
 /*main.c*/
 int check_quotes(char *line, int i, int count_quote);
-t_token *lexing(char *line);
+t_token *lexing(char *line, int *flag);
 // void lexing(char *line);
 
 /*---------------tokenization---------------*/

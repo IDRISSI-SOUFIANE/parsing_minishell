@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 22:43:23 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/21 23:56:59 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/22 09:56:42 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,8 +289,6 @@ t_data *parsing(t_token **tokens)
 		else if (temp->type == CMD)
 		{
 			current->cmd = ft_strdup(temp->value[0]);
-			/*should start from here */
-// you send just one string each time should chrck this line, I am now tired
 			add_argument(current, temp->value[0]);
 		}
 		else if (temp->type == WORD)
