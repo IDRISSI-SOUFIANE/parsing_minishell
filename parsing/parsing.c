@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 22:43:23 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/22 09:56:42 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/23 11:10:48 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void add_redirection(t_data *current, t_token **tokens)
 	if (!new_redir)
 		return ;
 	if (token->type == F_HERDOC)
+	{
 		new_redir->fd = token->fd;
+		new_redir->name = NULL;
+	}
 	else
 	{
 		new_redir->name = ft_strdup(token->value[0]);
@@ -270,11 +273,10 @@ void	ft_check(t_data *current, t_token *temp)
 		add_argument(current, temp->value[0]);
 }
 
-t_data *parsing(t_token **tokens)
+t_data *parsing(t_token **tokens, t_token *temp)
 {
 	t_data *lst;
 	t_data *current;
-	t_token *temp;
 
 	temp = *tokens;
 	lst = ft_lstnew_p();

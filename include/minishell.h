@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/22 17:47:48 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/23 11:39:10 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ typedef struct	s_var_data
 
 
 // Function prototypes
-t_data *parsing(t_token **tokens);
+t_data *parsing(t_token **tokens, t_token *temp);
 // char *ft_strjoin_free(char *s1, char *s2);
 
 /*********************Parsing**********************/

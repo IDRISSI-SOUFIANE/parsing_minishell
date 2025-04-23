@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 23:58:28 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/10 10:10:29 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/23 10:04:31 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ t_token *deldum(t_token **head)
 	return (*head);
 }
 
+
+// in herdoc I am not allocate the int cause int not a pointer so when I free I free somethin not allowed => so the solution is to check before free or to allocate the int
 void free_data(t_data *data)
 {
 	t_var_data	d_var;
@@ -84,7 +86,7 @@ void free_data(t_data *data)
         while (d_var.redir)
         {
 			d_var.next_redir = d_var.redir->next;
-            (free(d_var.redir->name), free(d_var.redir));
+			(free(d_var.redir->name),free(d_var.redir));
             d_var.redir = d_var.next_redir;
         }
         free(d_var.current);
