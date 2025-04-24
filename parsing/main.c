@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/23 11:40:28 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/24 12:39:22 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_token *lexing(char *line, int *flag)
 	int		i;
 	int		count_quote;
 	t_token	*tokens;
+	t_token	*current;
 
 	i = 0;
 	count_quote = 0;
@@ -55,13 +56,14 @@ t_token *lexing(char *line, int *flag)
 	if (tokens == NULL)
 		return (NULL);
 	tokens->fd = 0;
-	if (error(tokens))
+	current = NULL;
+	if (error(tokens, current))
 	{
 		*flag = 1;
 		return (tokens);
 	}
 	ft_rename(tokens);
-	ft_expand(tokens);
+	ft_expand(tokens, i);
 	ft_herdoc(&tokens);
 	return (tokens);
 }
@@ -100,6 +102,11 @@ t_token *lexing(char *line, int *flag)
 // 						}
 // 						else
 // 						{
+// 							// if (tmp->file->fd < 0)
+// 							// {
+// 							// 	printf("error in fd \n");
+// 							// 	return ;
+// 							// }
 // 							printf("[fd: %d | ftype: %d]\n",  (tmp->file->fd), tmp->file->type);
 							
 // 								char	buffer[1337];
@@ -143,24 +150,22 @@ void	helper_main(t_token *tokens, int *flag)
 	temp = NULL;
 	if (*flag == 0)
 	{
-		// printf("he enter here flag: %d\n", flag);
 		data = parsing(&tokens, temp);
 		//	execution
-			//ft_excution(data);
+			// ft_excution(data);
 		//
 		free_data(data);
 		free_tokens(tokens);
 	}
 	else
 	{
-		printf("he detect a synatx error\n");
 		free_tokens(tokens);
 	}
 }
 
 int main(int ac, char **av, char **env)
 {
-	// atexit(f);
+	atexit(f);
 	((void)ac, (void)av);
 	(void)env; // I am voiding env cause in expand i am using function getenv() !!!!! and should check if env is not NULL also should work with env of execution
 

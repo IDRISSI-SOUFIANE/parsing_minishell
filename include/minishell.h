@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/23 11:39:10 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:08:38 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,7 @@ typedef struct s_quote_data
 	char *line;
 	int *i;
 	char **buffer;
-	// int *buffer_index;
 } t_quote_data;
-
 
 typedef	struct s_initalize
 {
@@ -57,7 +55,6 @@ typedef	struct s_initalize
     char	*new_buffer;
 	char	*res;
 }	t_initalize;
-
 
 typedef struct s_token
 {
@@ -75,8 +72,8 @@ typedef struct s_expand
 	int var_len;
 	char *var_name;
 } t_expand;
-/*              ******************************************************************************************        */
 
+/*              ******************************************************************************************        */
 typedef struct s_redir
 {
 	char			*name;
@@ -104,11 +101,6 @@ typedef struct	s_var_data
 	int		i;
 }	t_var_data;
 
-
-// Function prototypes
-t_data *parsing(t_token **tokens, t_token *temp);
-// char *ft_strjoin_free(char *s1, char *s2);
-
 /*********************Parsing**********************/
 
 /*main.c*/
@@ -118,12 +110,8 @@ t_token *lexing(char *line, int *flag);
 
 /*---------------tokenization---------------*/
 int sp(char c);
-// void handle_quotes(t_quote_data *data);
-// void handle_special_chars(char *line, int *i, t_token **head);
-// void handle_words(char *line, int *i, char *buffer, int *buffer_index);
-// void handle_words(char *line, int *i, char **buffer);
 t_token *tokenization(char *line, int i);
-
+void	handle_quotes(t_quote_data *data, t_initalize *init);
 /*---------------garbage---------------*/
 // Linked list:
 void free_tokens(t_token *tokens);
@@ -131,10 +119,19 @@ t_token *deldum(t_token **head);
 void free_data(t_data *data);
 
 /*---------------error---------------*/
-int error(t_token *tokens);
+int	error(t_token *tokens , t_token *current);
+int	is_redirect(t_keyword type);
+int	is_pipe(t_keyword type);
+int	pipe_check(t_token *prev, t_token *next);
 
 /*---------------expand---------------*/
-void ft_expand(t_token *tokens);
+void ft_expand(t_token *tokens, int i);
+void handle_single_quote(t_expand *ex, char *str, int *flag);
+void process_dollar(t_expand *ex, char *str);
+void handle_odd_dollars(t_expand *ex, char *str);
+void extract_var(t_expand *ex, char *str);
+void handle_even_dollars(t_expand *ex);
+void append_char(t_expand *ex, char c);
 
 /*---------------ft_rename------------*/
 void ft_rename(t_token *tokens);
@@ -142,6 +139,14 @@ void ft_rename(t_token *tokens);
 /*-------------ft_herdoc--------------*/
 void ft_herdoc(t_token **tokens);
 char **ft_expand_herdoc(char *str, int *flag);
+void handle_odd_dollars_herdoc(t_expand *ex, char *str);
+void extract_var_herdoc(t_expand *ex, char *str);
+void handle_even_dollars_herdoc(t_expand *ex);
+void append_char_herdoc(t_expand *ex, char c);
+
+/*-------------parsing--------------*/
+t_data *parsing(t_token **tokens, t_token *temp);
+t_data *ft_lstnew_p(void);
 
 /*===============libft===============*/
 char *ft_substr(char *s, int start, int len);
@@ -163,7 +168,6 @@ void *ft_memset(void *b, int c, size_t len);
 int ft_strcmp(char *s1, char *s2);
 
 /***************ft_split************* */
-
 void *ft_free(char **strs, int count);
 char **ft_split(char *s, char c);
 

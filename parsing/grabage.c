@@ -6,12 +6,11 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 23:58:28 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/23 10:04:31 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/24 10:28:06 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 void free_tokens(t_token *tokens)
 {
@@ -63,8 +62,6 @@ t_token *deldum(t_token **head)
 	return (*head);
 }
 
-
-// in herdoc I am not allocate the int cause int not a pointer so when I free I free somethin not allowed => so the solution is to check before free or to allocate the int
 void free_data(t_data *data)
 {
 	t_var_data	d_var;
@@ -93,97 +90,3 @@ void free_data(t_data *data)
         d_var.current = d_var.next;
     }
 }
-
-
-// void free_data(t_data *data)
-// {
-//     t_data *current = data;
-//     while (current)
-//     {
-//         t_data *next = current->next;
-
-//         // Free command
-//         free(current->cmd);
-
-//         // Free arguments
-//         if (current->args)
-//         {
-//             for (int i = 0; current->args[i]; i++)
-//                 free(current->args[i]);
-//             free(current->args);
-//         }
-
-//         // Free redirections
-//         t_redir *redir = current->file;
-//         while (redir)
-//         {
-//             t_redir *next_redir = redir->next;
-//             free(redir->name);
-//             free(redir);
-//             redir = next_redir;
-//         }
-
-//         free(current);
-//         current = next;
-//     }
-// }
-
-
-
-// void free_tokens(t_token *tokens)
-// {
-// 	t_token *tmp;
-
-// 	while (tokens)
-// 	{
-// 		tmp = tokens;
-// 		tokens = tokens->next;
-
-// 		// Ensure value is freed properly
-// 		if (tmp->value)
-// 		{
-// 			for (int i = 0; tmp->value[i]; i++)
-// 				free(tmp->value[i]); // Free each string
-// 			free(tmp->value);		 // Free the array itself
-// 		}
-
-// 		free(tmp); // Free the struct
-// 	}
-// }
-
-// t_token *deldum(t_token **head)
-// {
-// 	t_token *temp;
-
-// 	if (!head)
-// 		return (NULL);
-// 	temp = *head;
-// 	*head = (*head)->next;
-// 	free(temp->value);
-// 	free(temp);
-// 	temp = NULL;
-// 	return (*head);
-// }
-
-
-// void free_tokens(t_token *tokens)
-// {
-// 	t_token *temp;
-// 	int i;
-
-// 	temp = tokens;
-		
-// 	while (temp)
-// 	{
-// 		i = 0;
-// 		if (temp->value[i])
-// 		{			
-// 			while (temp->value[i])
-// 			{
-// 				printf("temp->value: %s\n", temp->value[i]);
-// 				i++;
-// 			}
-// 		}
-// 		temp = temp->next;
-// 	}
-// }

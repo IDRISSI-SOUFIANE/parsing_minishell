@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 00:41:05 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/03/13 06:21:23 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/24 10:26:48 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int is_redirection(t_keyword type)
 {
-	return (type == PIPE || type == READ_IN || type == WRITE_OUT || type == APPEND || type == HERDOC);
+	return (type == PIPE || type == READ_IN || type == WRITE_OUT
+		|| type == APPEND || type == HERDOC);
 }
 
 void ft_redierct(t_token *prev, t_token *tokens)
